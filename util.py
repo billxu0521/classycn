@@ -1,12 +1,14 @@
 # -*- coding: utf8 -*-
 import math
-puncts = "\t .!?#$%&\'()*+,-/:;<=>@[\]^_`{|}~！？｡。'\"＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃《》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏'·".decode('utf8')
+#puncts_str = "\t .!?#$%&\'()*+,-/:;<=>@[\]^_`{|}~！？｡。'\"＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃《》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏'·".decode('utf8')
+puncts = "\t .!?#$%&\'()*+,-/:;<=>@[\]^_`{|}~！？｡。'\"＂＃＄％＆＇（）＊＋，－／：；＜＝＞＠［＼］＾＿｀｛｜｝～｟｠｢｣､、〃《》「」『』【】〔〕〖〗〘〙〚〛〜〝〞〟〰〾〿–—‘’‛“”„‟…‧﹏'·"
 
 def file_to_lines(filenames):
     for fn in filenames:
         file = open(fn, 'r')
         for line in file:
-            line = line.decode('utf8').replace('\n',"")
+            #line = line.decode('utf8').replace('\n',"")
+            line = line.replace('\n',"")
             if len(line)>0:
                 yield line
         file.close()
@@ -136,7 +138,8 @@ def readvec(vecfilename):
     file = open(vecfilename, 'r')
     for line in file:
         line = line.split()
-        gram = line[0].decode('utf8')
+        #gram = line[0].decode('utf8')
+        gram = line[0]
         params = line[1:]
         params = [float(p) for p in params]
         base = math.sqrt(sum([p*p for p in params]))
@@ -156,7 +159,8 @@ def readvec2(vecfilename):
     file = open(vecfilename, 'r')
     for line in file:
         line = line.split()
-        gram = line[0].decode('utf8')
+        #gram = line[0].decode('utf8')
+        gram = line[0]
         params = line[1:]
         params = [float(p) for p in params]
         data  = {}
@@ -172,7 +176,8 @@ def lstmvec(vecfilename):
     file = open(vecfilename, 'r')
     for line in file:
         line = line.split()
-        gram = line[0].decode('utf8')
+        #gram = line[0].decode('utf8')
+        gram = line[0]
         params = line[1:]
         params = [float(p) for p in params]
         base = math.sqrt(sum([p*p for p in params]))

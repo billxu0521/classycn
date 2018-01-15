@@ -8,7 +8,7 @@ import util
 import datetime
 
 material = 'data/sjw/*'
-dictfile = 'data/vector/vectors300.txt'
+dictfile = 'data/vector/sjwcbow50.txt'
 charstop = True # True means label attributes to previous char
 features = 3 # 1=discrete; 2=vectors; 3=both
 random.seed(101)
@@ -23,19 +23,20 @@ if len(args)>1:
     charstop = int(args[4])
     modelname = args[5]
 
-print "Material:", material
+print ("Material:", material)
 
-print datetime.datetime.now()
+print (datetime.datetime.now())
 
 # Prepare li: list of random lines
 if features > 1:
     vdict = util.readvec(dictfile)
-    print "Dict:", dictfile
+    print ("Dict:", dictfile)
 li = [line for line in util.file_to_lines(glob.glob(material))]
 
 # Prepare data: list of x(char), y(label) sequences
 data = []
 for line in li:
+    print (line)
     x, y = util.line_toseq(line, charstop)
     if features == 1:
         d = crf.x_seq_to_features_discrete(x, charstop), y
@@ -48,8 +49,8 @@ for line in li:
 tagger = pycrfsuite.Tagger()
 tagger.open(modelname)
 
-print datetime.datetime.now()
-print "Start testing..."
+#print datetime.datetime.now()
+print ("Start testing...")
 results = []
 lines = []
 while data:
@@ -62,12 +63,13 @@ tp, fp, fn, tn = zip(*results)
 tp, fp, fn, tn = sum(tp), sum(fp), sum(fn), sum(tn)
 
 p, r = tp/(tp+fp), tp/(tp+fn)
-print "Total tokens in Test Set:", tp+fp+fn+tn
-print "Total S in REF:", tp+fn
-print "Total S in OUT:", tp+fp
-print "Presicion:", p
-print "Recall:", r
-print "*******************F1-score:", 2*p*r/(p+r)
+print ("Total tokens in Test Set:", tp+fp+fn+tn)
+print ("Total S in REF:", tp+fn)
+print ("Total S in OUT:", tp+fp)
+print ("Presicion:", p)
+print ("Recall:", r)
+print ("*******************F1-score:", 2*p*r/(p+r))
 
 for line in lines:
-    print line.encode('utf8')
+    #print (line.encode('utf8'))
+    print (line)
