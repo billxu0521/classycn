@@ -15,6 +15,7 @@ random.seed(101)
 
 "python runcrf-hu.py 'qualitative/allover-sjw-gold.*' d 1 1 datasjw1000001.m"
 "python runcrf-hu.py 'qualitative/allover-24s-gold.*' d 1 1 data24s100001.m"
+"python runcrf-hu.py '原文檔名' '不確定是啥' 斷句 特徵? 產出的檔名"
 args = sys.argv
 if len(args)>1:
     material = args[1]
@@ -36,7 +37,6 @@ li = [line for line in util.file_to_lines(glob.glob(material))]
 # Prepare data: list of x(char), y(label) sequences
 data = []
 for line in li:
-    print (line)
     x, y = util.line_toseq(line, charstop)
     if features == 1:
         d = crf.x_seq_to_features_discrete(x, charstop), y
@@ -53,8 +53,9 @@ tagger.open(modelname)
 print ("Start testing...")
 results = []
 lines = []
-while data:
-    xseq, yref = data.pop()
+#while data:
+for index in range(len(data)):
+    xseq, yref = data.pop(0)
     yout = tagger.tag(xseq)
     results.append(util.eval(yref, yout, "S"))
     lines.append(util.seq_to_line([x['gs0'] for x in xseq],yout,charstop))
