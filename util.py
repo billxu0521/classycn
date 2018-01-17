@@ -33,7 +33,8 @@ def make_charset(list_of_sentences, includefreq):
 
 def line_toraw(line):
     import re
-    return re.sub('[%s]' % re.escape(puncts+"\n".decode('utf8')), '', line)
+    #return re.sub('[%s]' % re.escape(puncts+"\n".decode('utf8')), '', line)
+    return re.sub('[%s]' % re.escape(puncts+"\n"), '', line)
 
 def seq_to_line(x, y, charstop):
     assert len(x)==len(y)
@@ -90,7 +91,8 @@ def seq_to_densevec(x, y, mydict):
     #xseq = [mydict.get(c, default=mydict["zero"]) for c in x]
     xseq = []
     for c in x:
-        if mydict.has_key(c):
+       #if mydict.has_key(c):
+        if c in mydict:
             xseq.append(mydict[c])
         else:
             xseq.append(mydict["zero"])
@@ -191,18 +193,18 @@ def lstmvec(vecfilename):
 
 def eval(ref, out, signi):
     assert len(ref) == len(out)
-    tp = 0.0
-    fp = 0.0
-    fn = 0.0
-    tn = 0.0
+    tp = 0.0 #正確斷句 true positives
+    fp = 0.0 #錯誤斷句 false positives
+    fn = 0.0 #錯誤不斷句 false negatives
+    tn = 0.0 #正確不斷句 true negatives
     for i in range(len(ref)):
-        if ref[i] == signi:
-            if out[i] == signi: tp = tp+1
-            else: fn = fn+1
+        if ref[i] == signi: #如果原始資料有S標記
+            if out[i] == signi: tp = tp+1 #如果輸出結果跟原始資料一樣 正確的S
+            else: fn = fn+1 #原始資料是S 輸出資料沒有S 失敗的N
         elif out[i] == signi:
-            fp = fp+1
+            fp = fp+1#輸出資料是S 原始資料沒有S  失敗的S
         else:
-            tn = tn+1
+            tn = tn+1 #都沒事  正確的N
     return tp, fp, fn, tn
 
 
